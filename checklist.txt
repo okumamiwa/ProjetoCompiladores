@@ -1,0 +1,17 @@
+Itens Obrigatórios
+( ) 2 tipos de variáveis (String,...)
+( ) possuir if-else
+( ) 1 estrutura de repetição
+( ) verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos
+( ) operações de entrada e saída
+( ) aceitar números decimais
+( ) verificar se a variável foi ou não declarada
+( ) verificar se a variável declarada foi ou não utilizada
+( ) linguagem de destino: Java
+
+Itens opcionais:
+( ) mais tipos de dados
+( ) mais estruturas de repetições
+( ) trabalhar com vetores/matrizes
+( ) criar um runtime (um interpretador), além de gerar código destino
+( ) outras opções (especificar)

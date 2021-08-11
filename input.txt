@@ -1,0 +1,7 @@
+programa
+	leia(a);
+	leia(b);
+	
+	escreva(a);
+	escreva(b);
+fimprog;

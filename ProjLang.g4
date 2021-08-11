@@ -5,7 +5,14 @@ grammar ProjLang;
 	import br.com.projetocompiladores.datastructures.ProjVariable;
 	import br.com.projetocompiladores.datastructures.ProjSymbolTable;
 	import br.com.projetocompiladores.exceptions.ProjSemanticException;
+	import br.com.projetocompiladores.ast.ProjProgram;
+	import br.com.projetocompiladores.ast.AbstractCommand;
+	import br.com.projetocompiladores.ast.CommandLeitura;
+	import br.com.projetocompiladores.ast.CommandEscrita;
+	import br.com.projetocompiladores.ast.CommandAtribuicao;
+	import br.com.projetocompiladores.ast.CommandDecisao;
 	import java.util.ArrayList;
+	import java.util.Stack;
 }
 
 @members{
@@ -14,16 +21,40 @@ grammar ProjLang;
 	private String _varValue;
 	private ProjSymbolTable symbolTable = new ProjSymbolTable();
 	private ProjSymbol symbol;
+	private ProjProgram program = new ProjProgram();
+	private ArrayList<AbstractCommand> curThread;
+	private Stack<ArrayList<AbstractCommand>> stack = new Stack<ArrayList<AbstractCommand>>();
+	private String _readID;
+	private String _writeID;
+	private String _exprID;
+	private String _exprContent;
+	private String _exprDecision;
+	private ArrayList<AbstractCommand> listaTrue;
+	private ArrayList<AbstractCommand> listaFalse;
 	
-	private void verificaID(String id) {
+	public void verificaID(String id) {
 		if (!symbolTable.exists(id)){
 			throw new ProjSemanticException("Symbol " + id + " not declared");
 		}
 	}
+	
+	public void exibeComandos(){
+		for (AbstractCommand c: program.getComandos()){
+			System.out.println(c);
+		}
+	}
+	
+	public void generateCode(){
+		program.generateTarget();
+	}
 }
 
 prog	: 'programa' decl bloco 'fimprog;'
-		;
+		  	{  	
+		  		program.setVarTable(symbolTable);
+           	  	program.setComandos(stack.pop());
+        	} 
+        ;
 		
 decl	: (declaravar) + 
 		;
@@ -55,43 +86,95 @@ declaravar	: tipo ID {
 					SC
 			;
 	
-bloco	: (cmd) +
+bloco	: { curThread = new ArrayList<AbstractCommand>(); 
+	        stack.push(curThread);  
+          }
+          (cmd)+
 		;
 		
 tipo	: 'numero'	{_tipo = ProjVariable.NUMBER;}
 		| 'texto'	{_tipo = ProjVariable.TEXT;}
 		;
 		
-cmd 	: cmdleitura {System.out.println("Comando de leitura reconhecido");}
-		| cmdescrita {System.out.println("Comando de escrita reconhecido");}
-		| cmdatrib	 {System.out.println("Comnando de atribuicao reconhecido");}	
+cmd 	: cmdleitura
+		| cmdescrita 
+		| cmdatrib	 
+		| cmdselecao
 		;
 		
 cmdleitura	: 'leia' 	AP 
 						ID { verificaID(_input.LT(-1).getText());
+						     _readID = _input.LT(-1).getText();
                  	  	} 
 						FP	 
 						SC
-			;
+				{
+              		ProjVariable var = (ProjVariable)symbolTable.get(_readID);
+              		CommandLeitura cmd = new CommandLeitura(_readID, var);
+              		stack.peek().add(cmd);
+              	};
 			
 cmdescrita	: 'escreva' AP 
 						ID { verificaID(_input.LT(-1).getText());
+							 _writeID = _input.LT(-1).getText();
                  	  	} 
                  	  	FP 
                  	  	SC
+                {
+               	  	CommandEscrita cmd = new CommandEscrita(_writeID);
+               	  	stack.peek().add(cmd);
+               	}	
 			;
 
 cmdatrib	: 	ID { verificaID(_input.LT(-1).getText());
+                     _exprID = _input.LT(-1).getText();
      	  		} 
-     	  		ATTR expr SC
+     	  		ATTR { _exprContent = ""; } 
+     	  		expr 
+     	  		SC {
+               	 	CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
+               	 	stack.peek().add(cmd);
+               	}
 			;
 
-expr		: termo (OP termo)*
+cmdselecao	:  'se' AP 
+					ID 	  { _exprDecision = _input.LT(-1).getText(); }
+					OPREL { _exprDecision += _input.LT(-1).getText(); }
+					(ID | NUMBER) {_exprDecision += _input.LT(-1).getText(); }
+					FP 
+					ACH { 	curThread = new ArrayList<AbstractCommand>(); 
+                      		stack.push(curThread);
+                    }
+                    (cmd)+ 
+                    FCH { listaTrue = stack.pop();	
+                    } 
+				('senao' 
+					ACH {
+                   	 	curThread = new ArrayList<AbstractCommand>();
+                   	 	stack.push(curThread);
+                   	} 
+                   	(cmd+)
+                   	FCH {
+                   		listaFalse = stack.pop();
+                   		CommandDecisao cmd = new CommandDecisao(_exprDecision, listaTrue, listaFalse);
+                   		stack.peek().add(cmd);
+                   	}
+				)?
+			;
+
+expr		: termo ( 
+	           	OP { _exprContent += _input.LT(-1).getText();}
+	            termo
+	            )*
 			;
 			
 termo		: ID { verificaID(_input.LT(-1).getText());
+	               _exprContent += _input.LT(-1).getText();
               } 
-              | NUMBER
+              | 
+              NUMBER {
+              		_exprContent += _input.LT(-1).getText();
+              }
 			;
 		
 AP	: '('
@@ -111,6 +194,15 @@ ATTR: '='
 	 
 VIR : ','
     ;
+    
+ACH : '{'
+    ;
+     
+FCH	: '}'
+    ;
+	 
+OPREL 	: '>' | '<' | '>=' | '<=' | '==' | '!='
+      	;	
      
 ID	: [a-z] ([a-z] | [A-Z] | [0-9])*
 	;

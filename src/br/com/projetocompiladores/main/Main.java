@@ -25,6 +25,10 @@ public class Main {
 			parser.prog();
 			
 			System.out.println("Compilation Successfull");
+			
+			parser.exibeComandos();
+			
+			parser.generateCode();
 		} 
 		catch (ProjSemanticException ex) {
 			System.err.println("SEMANTIC ERROR - " + ex.getMessage());

@@ -5,7 +5,14 @@ package br.com.projetocompiladores.parser;
 	import br.com.projetocompiladores.datastructures.ProjVariable;
 	import br.com.projetocompiladores.datastructures.ProjSymbolTable;
 	import br.com.projetocompiladores.exceptions.ProjSemanticException;
+	import br.com.projetocompiladores.ast.ProjProgram;
+	import br.com.projetocompiladores.ast.AbstractCommand;
+	import br.com.projetocompiladores.ast.CommandLeitura;
+	import br.com.projetocompiladores.ast.CommandEscrita;
+	import br.com.projetocompiladores.ast.CommandAtribuicao;
+	import br.com.projetocompiladores.ast.CommandDecisao;
 	import java.util.ArrayList;
+	import java.util.Stack;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -104,6 +111,16 @@ public interface ProjLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCmdatrib(ProjLangParser.CmdatribContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjLangParser#cmdselecao}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdselecao(ProjLangParser.CmdselecaoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjLangParser#cmdselecao}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdselecao(ProjLangParser.CmdselecaoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ProjLangParser#expr}.
 	 * @param ctx the parse tree

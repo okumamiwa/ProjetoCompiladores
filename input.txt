@@ -7,6 +7,11 @@ programa
 	
 	a = 1 + 2 * 3 / b;
 	
-	escreva(a);
-	escreva(b);
+	se (a > b) {
+		escreva (a);
+	}
+	senao {
+		escreva(b);
+	}	
+	
 fimprog;

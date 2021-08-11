@@ -5,7 +5,14 @@ package br.com.projetocompiladores.parser;
 	import br.com.projetocompiladores.datastructures.ProjVariable;
 	import br.com.projetocompiladores.datastructures.ProjSymbolTable;
 	import br.com.projetocompiladores.exceptions.ProjSemanticException;
+	import br.com.projetocompiladores.ast.ProjProgram;
+	import br.com.projetocompiladores.ast.AbstractCommand;
+	import br.com.projetocompiladores.ast.CommandLeitura;
+	import br.com.projetocompiladores.ast.CommandEscrita;
+	import br.com.projetocompiladores.ast.CommandAtribuicao;
+	import br.com.projetocompiladores.ast.CommandDecisao;
 	import java.util.ArrayList;
+	import java.util.Stack;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -126,6 +133,18 @@ public class ProjLangBaseListener implements ProjLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCmdatrib(ProjLangParser.CmdatribContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdselecao(ProjLangParser.CmdselecaoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdselecao(ProjLangParser.CmdselecaoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

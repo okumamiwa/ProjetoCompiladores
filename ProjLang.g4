@@ -11,6 +11,7 @@ grammar ProjLang;
 	import br.com.projetocompiladores.ast.CommandEscrita;
 	import br.com.projetocompiladores.ast.CommandAtribuicao;
 	import br.com.projetocompiladores.ast.CommandDecisao;
+	import br.com.projetocompiladores.ast.CommandRepeticao;
 	import java.util.ArrayList;
 	import java.util.Stack;
 }
@@ -31,6 +32,7 @@ grammar ProjLang;
 	private String _exprDecision;
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> listaFalse;
+	private ArrayList<AbstractCommand> listaCmd;
 	
 	public void verificaID(String id) {
 		if (!symbolTable.exists(id)){
@@ -100,6 +102,7 @@ cmd 	: cmdleitura
 		| cmdescrita 
 		| cmdatrib	 
 		| cmdselecao
+		| cmdrepeticao
 		;
 		
 cmdleitura	: 'leia' 	AP 
@@ -161,6 +164,22 @@ cmdselecao	:  'se' AP
                    	}
 				)?
 			;
+			
+cmdrepeticao: 'enquanto'	AP
+							ID 		{ _exprDecision = _input.LT(-1).getText(); }
+							OPREL 	{ _exprDecision += _input.LT(-1).getText(); }
+							(ID | NUMBER)	{ _exprDecision += _input.LT(-1).getText(); }
+							FP	
+							ACH	{	curThread = new ArrayList<AbstractCommand>();
+									stack.push(curThread);
+							}
+							(cmd)+
+							FCH {	listaCmd = stack.pop(); 
+									CommandRepeticao cmd = new CommandRepeticao( _exprDecision, listaCmd);
+									stack.peek().add(cmd);
+							}
+			;
+						
 
 expr		: termo ( 
 	           	OP { _exprContent += _input.LT(-1).getText();}
@@ -168,12 +187,14 @@ expr		: termo (
 	            )*
 			;
 			
-termo		: ID { verificaID(_input.LT(-1).getText());
-	               _exprContent += _input.LT(-1).getText();
+termo		: ID 	{ verificaID(_input.LT(-1).getText());
+	               	  _exprContent += _input.LT(-1).getText();
               } 
               | 
-              NUMBER {
-              		_exprContent += _input.LT(-1).getText();
+              NUMBER{ _exprContent += _input.LT(-1).getText();
+              }
+              |
+              TEXT	{ _exprContent += _input.LT(-1).getText();
               }
 			;
 		
@@ -210,6 +231,9 @@ ID	: [a-z] ([a-z] | [A-Z] | [0-9])*
 NUMBER	: [0-9]+ ('.' [0-9]+)?	 
 	 	;
 	 	
+TEXT : '"' ( '\\"' | . )*? '"' ;
+
+    
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
 	 	
 	 	

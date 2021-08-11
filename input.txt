@@ -1,5 +1,5 @@
 programa
-	numero a, b;
+	numero a, b, c;
 	texto t1;
 	
 	leia(a);
@@ -13,5 +13,15 @@ programa
 	senao {
 		escreva(b);
 	}	
+	
+	c = 0;
+
+  	enquanto ( c < 10 ) {
+       	escreva (c);
+       	c = c + 1;
+  	}
+  	
+  	t1 = "testing";
+  	escreva(t1);
 	
 fimprog;

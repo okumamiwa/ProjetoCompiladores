@@ -1,6 +1,13 @@
 // Generated from ProjLang.g4 by ANTLR 4.9.2
 package br.com.projetocompiladores.parser;
 
+	import br.com.projetocompiladores.datastructures.ProjSymbol;
+	import br.com.projetocompiladores.datastructures.ProjVariable;
+	import br.com.projetocompiladores.datastructures.ProjSymbolTable;
+	import br.com.projetocompiladores.exceptions.ProjSemanticException;
+	import java.util.ArrayList;
+
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -28,6 +35,30 @@ public class ProjLangBaseListener implements ProjLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDecl(ProjLangParser.DeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecl(ProjLangParser.DeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDeclaravar(ProjLangParser.DeclaravarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclaravar(ProjLangParser.DeclaravarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBloco(ProjLangParser.BlocoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -35,6 +66,18 @@ public class ProjLangBaseListener implements ProjLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBloco(ProjLangParser.BlocoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTipo(ProjLangParser.TipoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTipo(ProjLangParser.TipoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -2,6 +2,8 @@ package br.com.projetocompiladores.main;
 
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.CharStreams;
+
+import br.com.projetocompiladores.exceptions.ProjSemanticException;
 import br.com.projetocompiladores.parser.ProjLangLexer;
 import br.com.projetocompiladores.parser.ProjLangParser;
 
@@ -24,8 +26,11 @@ public class Main {
 			
 			System.out.println("Compilation Successfull");
 		} 
+		catch (ProjSemanticException ex) {
+			System.err.println("SEMANTIC ERROR - " + ex.getMessage());
+		}
 		catch (Exception ex){
-			System.err.println("ERROE: " + ex.getMessage());
+			System.err.println("ERROR: " + ex.getMessage());
 		}
 	}
 }

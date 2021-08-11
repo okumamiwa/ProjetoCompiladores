@@ -1,5 +1,12 @@
 // Generated from ProjLang.g4 by ANTLR 4.9.2
 package br.com.projetocompiladores.parser;
+
+	import br.com.projetocompiladores.datastructures.ProjSymbol;
+	import br.com.projetocompiladores.datastructures.ProjVariable;
+	import br.com.projetocompiladores.datastructures.ProjSymbolTable;
+	import br.com.projetocompiladores.exceptions.ProjSemanticException;
+	import java.util.ArrayList;
+
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -18,6 +25,26 @@ public interface ProjLangListener extends ParseTreeListener {
 	 */
 	void exitProg(ProjLangParser.ProgContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ProjLangParser#decl}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecl(ProjLangParser.DeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjLangParser#decl}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecl(ProjLangParser.DeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjLangParser#declaravar}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclaravar(ProjLangParser.DeclaravarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjLangParser#declaravar}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclaravar(ProjLangParser.DeclaravarContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ProjLangParser#bloco}.
 	 * @param ctx the parse tree
 	 */
@@ -27,6 +54,16 @@ public interface ProjLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBloco(ProjLangParser.BlocoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjLangParser#tipo}.
+	 * @param ctx the parse tree
+	 */
+	void enterTipo(ProjLangParser.TipoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjLangParser#tipo}.
+	 * @param ctx the parse tree
+	 */
+	void exitTipo(ProjLangParser.TipoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ProjLangParser#cmd}.
 	 * @param ctx the parse tree

@@ -65,14 +65,22 @@ grammar ProjLang;
 		}
 	}
 	
-	public String verifyTypesAndGetTypeIfValid(ArrayList<String> listTypes, String expressao) {
-		String primeiroTipo = listTypes.get(0);
-		for (String tipo: listTypes) {
-			if (tipo != primeiroTipo) {
-				throw new ProjSemanticException("Incompatible types in expression: " + expressao);
+	public String verifyAndGetType( String expression) {
+		String t = exprTypeList.get(0);
+		for (String tipo: exprTypeList) {
+			if (tipo != t) {
+				throw new ProjSemanticException("Incompatible types in expression: " + expression);
 			}
 		}
-		return primeiroTipo;
+		return t;
+	}
+	
+	public ArrayList<String> warnings() {
+		ArrayList<String> l = new ArrayList<String>();
+		for(ProjSymbol s: symbolTable.getNonUsed()) {
+			l.add("Variável <" + s.getName() + "> declarada, mas nao usada");
+		}
+		return l;
 	}
 }
 
@@ -175,7 +183,7 @@ cmdselecao	:  'se' AP 	  { exprTypeList = new ArrayList<String>(); }
 					OPREL { _exprDecision += _input.LT(-1).getText(); }
 					termcomp { 	String id = _input.LT(-1).getText();
 								_exprDecision += id;
-								_right = verifyTypesAndGetTypeIfValid(exprTypeList, id);
+								_right = verifyAndGetType(id);
 					}
 					FP 	{ 	if(_left != _right) {
 								throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
@@ -208,7 +216,7 @@ cmdrepeticao: 'enquanto'	AP		{ exprTypeList = new ArrayList<String>(); }
 							OPREL 	{ _exprDecision += _input.LT(-1).getText(); }
 							termcomp{ 	String id = _input.LT(-1).getText();
 										_exprDecision += id;
-										_right = verifyTypesAndGetTypeIfValid(exprTypeList, id);
+										_right = verifyAndGetType(id);
 							}	
 							FP	{ 	if(_left != _right) {
 										throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);

@@ -1,6 +1,8 @@
 package br.com.projetocompiladores.datastructures;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 
 public class ProjSymbolTable {
@@ -21,7 +23,9 @@ public class ProjSymbolTable {
 	}
 	
 	public ProjSymbol get(String symbolName) {
-		return map.get(symbolName);
+		ProjSymbol s = map.get(symbolName);
+		s.setUsed();
+		return s;
 	}
 	
 	public String getTypeByID(String id) {
@@ -37,5 +41,11 @@ public class ProjSymbolTable {
 			lista.add(symbol);
 		}
 		return lista;
+	}
+	
+	public List<ProjSymbol> getNonUsed() {
+		ArrayList<ProjSymbol> allSymbols = this.getAll();
+		List<ProjSymbol>      nonUsed	 = allSymbols.stream().filter(s -> !s.used).collect(Collectors.toList());
+		return nonUsed;
 	}
 }

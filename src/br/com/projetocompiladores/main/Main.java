@@ -1,6 +1,9 @@
 package br.com.projetocompiladores.main;
 
 import org.antlr.v4.runtime.CommonTokenStream;
+
+import java.util.ArrayList;
+
 import org.antlr.v4.runtime.CharStreams;
 
 import br.com.projetocompiladores.exceptions.ProjSemanticException;
@@ -24,8 +27,16 @@ public class Main {
 			parser = new ProjLangParser(tokens);
 			parser.prog();
 			
-			System.out.println("Compilation Successfull");
+			ArrayList<String> warnings = parser.warnings();
+			if(warnings.size() > 0) {
+				System.out.println("############# WARNINGS #############");
+				for(String w : warnings) {
+					System.out.println(w);
+				}
+			}
 			
+			System.out.println("********* COMPILATION SUCESSFULL *********");
+			System.out.println("---------------- COMMANDS ----------------");
 			parser.exibeComandos();
 			
 			parser.generateCode();

@@ -158,14 +158,22 @@ public class ProjLangParser extends Parser {
 			}
 		}
 		
-		public String verifyTypesAndGetTypeIfValid(ArrayList<String> listTypes, String expressao) {
-			String primeiroTipo = listTypes.get(0);
-			for (String tipo: listTypes) {
-				if (tipo != primeiroTipo) {
-					throw new ProjSemanticException("Incompatible types in expression: " + expressao);
+		public String verifyAndGetType( String expression) {
+			String t = exprTypeList.get(0);
+			for (String tipo: exprTypeList) {
+				if (tipo != t) {
+					throw new ProjSemanticException("Incompatible types in expression: " + expression);
 				}
 			}
-			return primeiroTipo;
+			return t;
+		}
+		
+		public ArrayList<String> warnings() {
+			ArrayList<String> l = new ArrayList<String>();
+			for(ProjSymbol s: symbolTable.getNonUsed()) {
+				l.add("Variável <" + s.getName() + "> declarada, mas nao usada");
+			}
+			return l;
 		}
 
 	public ProjLangParser(TokenStream input) {
@@ -799,7 +807,7 @@ public class ProjLangParser extends Parser {
 			termcomp();
 			 	String id = _input.LT(-1).getText();
 											_exprDecision += id;
-											_right = verifyTypesAndGetTypeIfValid(exprTypeList, id);
+											_right = verifyAndGetType(id);
 								
 			setState(104);
 			match(FP);
@@ -936,7 +944,7 @@ public class ProjLangParser extends Parser {
 			termcomp();
 			 	String id = _input.LT(-1).getText();
 													_exprDecision += id;
-													_right = verifyTypesAndGetTypeIfValid(exprTypeList, id);
+													_right = verifyAndGetType(id);
 										
 			setState(137);
 			match(FP);

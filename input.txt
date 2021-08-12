@@ -23,6 +23,11 @@ programa
        	c = c + 1;
   	}
   	
+  	fazer {
+  		escreva (c);
+  		c = c - 1;
+  	} ate (c > 0)
+  	
   	
   	escreva(t1);
 	

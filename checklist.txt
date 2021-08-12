@@ -1,7 +1,7 @@
 Itens Obrigatórios
 (x) 2 tipos de variáveis (String,Double)
 (x) possuir if-else
-(x) 1 estrutura de repetição
+(x) 1 estrutura de repetição (while)
 (x) verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos
 (x) operações de entrada e saída (leia e escreva)
 (x) aceitar números decimais
@@ -10,6 +10,8 @@ Itens Obrigatórios
 (x) linguagem de destino: Java
 
 Itens opcionais:
+(x) compatibilidade de tipos em expressões comparativas
+(x) repetição do-while 
 ( ) mais tipos de dados
 ( ) mais estruturas de repetições
 ( ) trabalhar com vetores/matrizes

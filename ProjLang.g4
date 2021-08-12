@@ -12,6 +12,7 @@ grammar ProjLang;
 	import br.com.projetocompiladores.ast.CommandAtribuicao;
 	import br.com.projetocompiladores.ast.CommandDecisao;
 	import br.com.projetocompiladores.ast.CommandRepeticao;
+	import br.com.projetocompiladores.ast.CommandFazerAte;
 	import java.util.ArrayList;
 	import java.util.Stack;
 }
@@ -136,6 +137,7 @@ cmd 	: cmdleitura
 		| cmdatrib	 
 		| cmdselecao
 		| cmdrepeticao
+		| cmdfazerate
 		;
 		
 cmdleitura	: 'leia' 	AP 
@@ -231,7 +233,30 @@ cmdrepeticao: 'enquanto'	AP		{ exprTypeList = new ArrayList<String>(); }
 									stack.peek().add(cmd);
 							}
 			;
-						
+			
+cmdfazerate	: 'fazer'	ACH {	curThread = new ArrayList<AbstractCommand>();
+								stack.push(curThread);
+						} (cmd)+
+						FCH 
+						'ate'
+						AP	
+						ID	{	_exprDecision = _input.LT(-1).getText(); 
+								_left	 = getTypeByID(_exprDecision); 
+						}
+						OPREL 	{ _exprDecision += _input.LT(-1).getText(); }
+						termcomp{ 	String id = _input.LT(-1).getText();
+									_exprDecision += id;
+									_right = verifyAndGetType(id);
+						}
+						FP	{
+							if(_left != _right) {
+								throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
+							}
+							listaCmd = stack.pop();
+							CommandFazerAte cmd = new CommandFazerAte(_exprDecision, listaCmd);
+							stack.peek().add(cmd);		
+						}
+			;		
 
 expr		: termo ( 
 	           	OP { _exprContent += _input.LT(-1).getText();}

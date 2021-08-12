@@ -18,5 +18,8 @@ c = 0;
 t1 = "testing";
 while (c<5) {
 System.out.println(c);c = c+1;}
+do {
+System.out.println(c);c = c-1;} 
+ while (c>0);
 System.out.println(t1);
   }}

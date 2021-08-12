@@ -12,6 +12,7 @@ package br.com.projetocompiladores.parser;
 	import br.com.projetocompiladores.ast.CommandAtribuicao;
 	import br.com.projetocompiladores.ast.CommandDecisao;
 	import br.com.projetocompiladores.ast.CommandRepeticao;
+	import br.com.projetocompiladores.ast.CommandFazerAte;
 	import java.util.ArrayList;
 	import java.util.Stack;
 
@@ -33,17 +34,18 @@ public class ProjLangParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		AP=10, FP=11, SC=12, OP=13, ATTR=14, VIR=15, ACH=16, FCH=17, OPREL=18, 
-		ID=19, NUMBER=20, TEXT=21, WS=22;
+		T__9=10, T__10=11, AP=12, FP=13, SC=14, OP=15, ATTR=16, VIR=17, ACH=18, 
+		FCH=19, OPREL=20, ID=21, NUMBER=22, TEXT=23, WS=24;
 	public static final int
 		RULE_prog = 0, RULE_decl = 1, RULE_declaravar = 2, RULE_bloco = 3, RULE_tipo = 4, 
 		RULE_cmd = 5, RULE_cmdleitura = 6, RULE_cmdescrita = 7, RULE_cmdatrib = 8, 
-		RULE_cmdselecao = 9, RULE_cmdrepeticao = 10, RULE_expr = 11, RULE_termcomp = 12, 
-		RULE_termo = 13;
+		RULE_cmdselecao = 9, RULE_cmdrepeticao = 10, RULE_cmdfazerate = 11, RULE_expr = 12, 
+		RULE_termcomp = 13, RULE_termo = 14;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"prog", "decl", "declaravar", "bloco", "tipo", "cmd", "cmdleitura", "cmdescrita", 
-			"cmdatrib", "cmdselecao", "cmdrepeticao", "expr", "termcomp", "termo"
+			"cmdatrib", "cmdselecao", "cmdrepeticao", "cmdfazerate", "expr", "termcomp", 
+			"termo"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -51,16 +53,16 @@ public class ProjLangParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'programa'", "'fimprog;'", "'numero'", "'texto'", "'leia'", "'escreva'", 
-			"'se'", "'senao'", "'enquanto'", "'('", "')'", "';'", null, "'='", "','", 
-			"'{'", "'}'"
+			"'se'", "'senao'", "'enquanto'", "'fazer'", "'ate'", "'('", "')'", "';'", 
+			null, "'='", "','", "'{'", "'}'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, "AP", "FP", 
-			"SC", "OP", "ATTR", "VIR", "ACH", "FCH", "OPREL", "ID", "NUMBER", "TEXT", 
-			"WS"
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			"AP", "FP", "SC", "OP", "ATTR", "VIR", "ACH", "FCH", "OPREL", "ID", "NUMBER", 
+			"TEXT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -208,13 +210,13 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
-			match(T__0);
-			setState(29);
-			decl();
 			setState(30);
-			bloco();
+			match(T__0);
 			setState(31);
+			decl();
+			setState(32);
+			bloco();
+			setState(33);
 			match(T__1);
 			  	
 					  		program.setVarTable(symbolTable);
@@ -261,17 +263,17 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35); 
+			setState(37); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(34);
+				setState(36);
 				declaravar();
 				}
 				}
-				setState(37); 
+				setState(39); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__2 || _la==T__3 );
@@ -322,9 +324,9 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
+			setState(41);
 			tipo();
-			setState(40);
+			setState(42);
 			match(ID);
 
 				                  _varName = _input.LT(-1).getText();
@@ -337,15 +339,15 @@ public class ProjLangParser extends Parser {
 				                  	 throw new ProjSemanticException("Symbol " +_varName + " already declared");
 				                  }
 			                  	
-			setState(47);
+			setState(49);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==VIR) {
 				{
 				{
-				setState(42);
+				setState(44);
 				match(VIR);
-				setState(43);
+				setState(45);
 				match(ID);
 
 					                  _varName = _input.LT(-1).getText();
@@ -360,11 +362,11 @@ public class ProjLangParser extends Parser {
 				                    
 				}
 				}
-				setState(49);
+				setState(51);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(50);
+			setState(52);
 			match(SC);
 			}
 		}
@@ -410,20 +412,20 @@ public class ProjLangParser extends Parser {
 			 curThread = new ArrayList<AbstractCommand>(); 
 				        stack.push(curThread);  
 			          
-			setState(54); 
+			setState(56); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(53);
+				setState(55);
 				cmd();
 				}
 				}
-				setState(56); 
+				setState(58); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << ID))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << T__9) | (1L << ID))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -456,13 +458,13 @@ public class ProjLangParser extends Parser {
 		TipoContext _localctx = new TipoContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_tipo);
 		try {
-			setState(62);
+			setState(64);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__2:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(58);
+				setState(60);
 				match(T__2);
 				_tipo = ProjVariable.NUMBER;
 				}
@@ -470,7 +472,7 @@ public class ProjLangParser extends Parser {
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(60);
+				setState(62);
 				match(T__3);
 				_tipo = ProjVariable.TEXT;
 				}
@@ -506,6 +508,9 @@ public class ProjLangParser extends Parser {
 		public CmdrepeticaoContext cmdrepeticao() {
 			return getRuleContext(CmdrepeticaoContext.class,0);
 		}
+		public CmdfazerateContext cmdfazerate() {
+			return getRuleContext(CmdfazerateContext.class,0);
+		}
 		public CmdContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -524,42 +529,49 @@ public class ProjLangParser extends Parser {
 		CmdContext _localctx = new CmdContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_cmd);
 		try {
-			setState(69);
+			setState(72);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__4:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(64);
+				setState(66);
 				cmdleitura();
 				}
 				break;
 			case T__5:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(65);
+				setState(67);
 				cmdescrita();
 				}
 				break;
 			case ID:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(66);
+				setState(68);
 				cmdatrib();
 				}
 				break;
 			case T__6:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(67);
+				setState(69);
 				cmdselecao();
 				}
 				break;
 			case T__8:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(68);
+				setState(70);
 				cmdrepeticao();
+				}
+				break;
+			case T__9:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(71);
+				cmdfazerate();
 				}
 				break;
 			default:
@@ -602,18 +614,18 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(71);
+			setState(74);
 			match(T__4);
-			setState(72);
+			setState(75);
 			match(AP);
-			setState(73);
+			setState(76);
 			match(ID);
 			 verificaID(_input.LT(-1).getText());
 									     _readID = _input.LT(-1).getText();
 			                 	  	
-			setState(75);
+			setState(78);
 			match(FP);
-			setState(76);
+			setState(79);
 			match(SC);
 
 			              		ProjVariable var = (ProjVariable)symbolTable.get(_readID);
@@ -658,18 +670,18 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(79);
+			setState(82);
 			match(T__5);
-			setState(80);
+			setState(83);
 			match(AP);
-			setState(81);
+			setState(84);
 			match(ID);
 			 verificaID(_input.LT(-1).getText());
 										 _writeID = _input.LT(-1).getText();
 			                 	  	
-			setState(83);
+			setState(86);
 			match(FP);
-			setState(84);
+			setState(87);
 			match(SC);
 
 			               	  	CommandEscrita cmd = new CommandEscrita(_writeID);
@@ -715,19 +727,19 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(90);
 			match(ID);
 			 verificaID(_input.LT(-1).getText());
 			                     _exprID = _input.LT(-1).getText();
 			                     _left	 = getTypeByID(_exprID);
 			                     exprTypeList = new ArrayList<String>();
 			     	  		
-			setState(89);
+			setState(92);
 			match(ATTR);
 			 _exprContent = ""; 
-			setState(91);
+			setState(94);
 			expr();
-			setState(92);
+			setState(95);
 			match(SC);
 
 			               	 	CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
@@ -790,84 +802,84 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95);
+			setState(98);
 			match(T__6);
-			setState(96);
+			setState(99);
 			match(AP);
 			 exprTypeList = new ArrayList<String>(); 
-			setState(98);
+			setState(101);
 			match(ID);
 			 _exprDecision = _input.LT(-1).getText(); 
 										_left	 = getTypeByID(_exprDecision);
 								
-			setState(100);
+			setState(103);
 			match(OPREL);
 			 _exprDecision += _input.LT(-1).getText(); 
-			setState(102);
+			setState(105);
 			termcomp();
 			 	String id = _input.LT(-1).getText();
 											_exprDecision += id;
 											_right = verifyAndGetType(id);
 								
-			setState(104);
+			setState(107);
 			match(FP);
 			 	if(_left != _right) {
 											throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
 										}
 								
-			setState(106);
+			setState(109);
 			match(ACH);
 			 	curThread = new ArrayList<AbstractCommand>(); 
 			                      		stack.push(curThread);
 			                    
-			setState(109); 
+			setState(112); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(108);
+				setState(111);
 				cmd();
 				}
 				}
-				setState(111); 
+				setState(114); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << ID))) != 0) );
-			setState(113);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << T__9) | (1L << ID))) != 0) );
+			setState(116);
 			match(FCH);
 			 listaTrue = stack.pop();	
 			                    
-			setState(126);
+			setState(129);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__7) {
 				{
-				setState(115);
+				setState(118);
 				match(T__7);
-				setState(116);
+				setState(119);
 				match(ACH);
 
 				                   	 	curThread = new ArrayList<AbstractCommand>();
 				                   	 	stack.push(curThread);
 				                   	
 				{
-				setState(119); 
+				setState(122); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(118);
+					setState(121);
 					cmd();
 					}
 					}
-					setState(121); 
+					setState(124); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << ID))) != 0) );
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << T__9) | (1L << ID))) != 0) );
 				}
-				setState(123);
+				setState(126);
 				match(FCH);
 
 				                   		listaFalse = stack.pop();
@@ -927,56 +939,157 @@ public class ProjLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128);
+			setState(131);
 			match(T__8);
-			setState(129);
+			setState(132);
 			match(AP);
 			 exprTypeList = new ArrayList<String>(); 
-			setState(131);
+			setState(134);
 			match(ID);
 			 _exprDecision = _input.LT(-1).getText(); 
 												  _left	 = getTypeByID(_exprDecision); 
 										
-			setState(133);
+			setState(136);
 			match(OPREL);
 			 _exprDecision += _input.LT(-1).getText(); 
-			setState(135);
+			setState(138);
 			termcomp();
 			 	String id = _input.LT(-1).getText();
 													_exprDecision += id;
 													_right = verifyAndGetType(id);
 										
-			setState(137);
+			setState(140);
 			match(FP);
 			 	if(_left != _right) {
 													throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
 												}
 										
-			setState(139);
+			setState(142);
 			match(ACH);
 				curThread = new ArrayList<AbstractCommand>();
 												stack.push(curThread);
 										
-			setState(142); 
+			setState(145); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(141);
+				setState(144);
 				cmd();
 				}
 				}
-				setState(144); 
+				setState(147); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << ID))) != 0) );
-			setState(146);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << T__9) | (1L << ID))) != 0) );
+			setState(149);
 			match(FCH);
 				listaCmd = stack.pop(); 
 												CommandRepeticao cmd = new CommandRepeticao( _exprDecision, listaCmd);
 												stack.peek().add(cmd);
 										
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class CmdfazerateContext extends ParserRuleContext {
+		public TerminalNode ACH() { return getToken(ProjLangParser.ACH, 0); }
+		public TerminalNode FCH() { return getToken(ProjLangParser.FCH, 0); }
+		public TerminalNode AP() { return getToken(ProjLangParser.AP, 0); }
+		public TerminalNode ID() { return getToken(ProjLangParser.ID, 0); }
+		public TerminalNode OPREL() { return getToken(ProjLangParser.OPREL, 0); }
+		public TermcompContext termcomp() {
+			return getRuleContext(TermcompContext.class,0);
+		}
+		public TerminalNode FP() { return getToken(ProjLangParser.FP, 0); }
+		public List<CmdContext> cmd() {
+			return getRuleContexts(CmdContext.class);
+		}
+		public CmdContext cmd(int i) {
+			return getRuleContext(CmdContext.class,i);
+		}
+		public CmdfazerateContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_cmdfazerate; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjLangListener ) ((ProjLangListener)listener).enterCmdfazerate(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjLangListener ) ((ProjLangListener)listener).exitCmdfazerate(this);
+		}
+	}
+
+	public final CmdfazerateContext cmdfazerate() throws RecognitionException {
+		CmdfazerateContext _localctx = new CmdfazerateContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_cmdfazerate);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(152);
+			match(T__9);
+			setState(153);
+			match(ACH);
+				curThread = new ArrayList<AbstractCommand>();
+											stack.push(curThread);
+									
+			setState(156); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(155);
+				cmd();
+				}
+				}
+				setState(158); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__8) | (1L << T__9) | (1L << ID))) != 0) );
+			setState(160);
+			match(FCH);
+			setState(161);
+			match(T__10);
+			setState(162);
+			match(AP);
+			setState(163);
+			match(ID);
+				_exprDecision = _input.LT(-1).getText(); 
+											_left	 = getTypeByID(_exprDecision); 
+									
+			setState(165);
+			match(OPREL);
+			 _exprDecision += _input.LT(-1).getText(); 
+			setState(167);
+			termcomp();
+			 	String id = _input.LT(-1).getText();
+												_exprDecision += id;
+												_right = verifyAndGetType(id);
+									
+			setState(169);
+			match(FP);
+
+										if(_left != _right) {
+											throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
+										}
+										listaCmd = stack.pop();
+										CommandFazerAte cmd = new CommandFazerAte(_exprDecision, listaCmd);
+										stack.peek().add(cmd);		
+									
 			}
 		}
 		catch (RecognitionException re) {
@@ -1017,27 +1130,27 @@ public class ProjLangParser extends Parser {
 
 	public final ExprContext expr() throws RecognitionException {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_expr);
+		enterRule(_localctx, 24, RULE_expr);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(149);
+			setState(172);
 			termo();
-			setState(155);
+			setState(178);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==OP) {
 				{
 				{
-				setState(150);
+				setState(173);
 				match(OP);
 				 _exprContent += _input.LT(-1).getText();
-				setState(152);
+				setState(175);
 				termo();
 				}
 				}
-				setState(157);
+				setState(180);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1073,15 +1186,15 @@ public class ProjLangParser extends Parser {
 
 	public final TermcompContext termcomp() throws RecognitionException {
 		TermcompContext _localctx = new TermcompContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_termcomp);
+		enterRule(_localctx, 26, RULE_termcomp);
 		try {
-			setState(162);
+			setState(185);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(158);
+				setState(181);
 				match(ID);
 				 String id = _input.LT(-1).getText();
 									  verificaID(id);
@@ -1093,7 +1206,7 @@ public class ProjLangParser extends Parser {
 			case NUMBER:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(160);
+				setState(183);
 				match(NUMBER);
 				 _exprContent += _input.LT(-1).getText();
 				              		  exprTypeList.add("NUMBER");
@@ -1136,23 +1249,23 @@ public class ProjLangParser extends Parser {
 
 	public final TermoContext termo() throws RecognitionException {
 		TermoContext _localctx = new TermoContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_termo);
+		enterRule(_localctx, 28, RULE_termo);
 		try {
-			setState(167);
+			setState(190);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 			case NUMBER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(164);
+				setState(187);
 				termcomp();
 				}
 				break;
 			case TEXT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(165);
+				setState(188);
 				match(TEXT);
 				 _exprContent += _input.LT(-1).getText();
 				              		  exprTypeList.add("TEXT");
@@ -1175,54 +1288,62 @@ public class ProjLangParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30\u00ac\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\32\u00c3\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\3\2\3\2\3\2\3\2\3\2\3\3"+
-		"\6\3&\n\3\r\3\16\3\'\3\4\3\4\3\4\3\4\3\4\3\4\7\4\60\n\4\f\4\16\4\63\13"+
-		"\4\3\4\3\4\3\5\3\5\6\59\n\5\r\5\16\5:\3\6\3\6\3\6\3\6\5\6A\n\6\3\7\3\7"+
-		"\3\7\3\7\3\7\5\7H\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3"+
-		"\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\6\13p\n\13\r\13\16\13"+
-		"q\3\13\3\13\3\13\3\13\3\13\3\13\6\13z\n\13\r\13\16\13{\3\13\3\13\3\13"+
-		"\5\13\u0081\n\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3"+
-		"\f\6\f\u0091\n\f\r\f\16\f\u0092\3\f\3\f\3\f\3\r\3\r\3\r\3\r\7\r\u009c"+
-		"\n\r\f\r\16\r\u009f\13\r\3\16\3\16\3\16\3\16\5\16\u00a5\n\16\3\17\3\17"+
-		"\3\17\5\17\u00aa\n\17\3\17\2\2\20\2\4\6\b\n\f\16\20\22\24\26\30\32\34"+
-		"\2\2\2\u00ac\2\36\3\2\2\2\4%\3\2\2\2\6)\3\2\2\2\b\66\3\2\2\2\n@\3\2\2"+
-		"\2\fG\3\2\2\2\16I\3\2\2\2\20Q\3\2\2\2\22Y\3\2\2\2\24a\3\2\2\2\26\u0082"+
-		"\3\2\2\2\30\u0097\3\2\2\2\32\u00a4\3\2\2\2\34\u00a9\3\2\2\2\36\37\7\3"+
-		"\2\2\37 \5\4\3\2 !\5\b\5\2!\"\7\4\2\2\"#\b\2\1\2#\3\3\2\2\2$&\5\6\4\2"+
-		"%$\3\2\2\2&\'\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(\5\3\2\2\2)*\5\n\6\2*+\7\25"+
-		"\2\2+\61\b\4\1\2,-\7\21\2\2-.\7\25\2\2.\60\b\4\1\2/,\3\2\2\2\60\63\3\2"+
-		"\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64\3\2\2\2\63\61\3\2\2\2\64\65\7\16"+
-		"\2\2\65\7\3\2\2\2\668\b\5\1\2\679\5\f\7\28\67\3\2\2\29:\3\2\2\2:8\3\2"+
-		"\2\2:;\3\2\2\2;\t\3\2\2\2<=\7\5\2\2=A\b\6\1\2>?\7\6\2\2?A\b\6\1\2@<\3"+
-		"\2\2\2@>\3\2\2\2A\13\3\2\2\2BH\5\16\b\2CH\5\20\t\2DH\5\22\n\2EH\5\24\13"+
-		"\2FH\5\26\f\2GB\3\2\2\2GC\3\2\2\2GD\3\2\2\2GE\3\2\2\2GF\3\2\2\2H\r\3\2"+
-		"\2\2IJ\7\7\2\2JK\7\f\2\2KL\7\25\2\2LM\b\b\1\2MN\7\r\2\2NO\7\16\2\2OP\b"+
-		"\b\1\2P\17\3\2\2\2QR\7\b\2\2RS\7\f\2\2ST\7\25\2\2TU\b\t\1\2UV\7\r\2\2"+
-		"VW\7\16\2\2WX\b\t\1\2X\21\3\2\2\2YZ\7\25\2\2Z[\b\n\1\2[\\\7\20\2\2\\]"+
-		"\b\n\1\2]^\5\30\r\2^_\7\16\2\2_`\b\n\1\2`\23\3\2\2\2ab\7\t\2\2bc\7\f\2"+
-		"\2cd\b\13\1\2de\7\25\2\2ef\b\13\1\2fg\7\24\2\2gh\b\13\1\2hi\5\32\16\2"+
-		"ij\b\13\1\2jk\7\r\2\2kl\b\13\1\2lm\7\22\2\2mo\b\13\1\2np\5\f\7\2on\3\2"+
-		"\2\2pq\3\2\2\2qo\3\2\2\2qr\3\2\2\2rs\3\2\2\2st\7\23\2\2t\u0080\b\13\1"+
-		"\2uv\7\n\2\2vw\7\22\2\2wy\b\13\1\2xz\5\f\7\2yx\3\2\2\2z{\3\2\2\2{y\3\2"+
-		"\2\2{|\3\2\2\2|}\3\2\2\2}~\7\23\2\2~\177\b\13\1\2\177\u0081\3\2\2\2\u0080"+
-		"u\3\2\2\2\u0080\u0081\3\2\2\2\u0081\25\3\2\2\2\u0082\u0083\7\13\2\2\u0083"+
-		"\u0084\7\f\2\2\u0084\u0085\b\f\1\2\u0085\u0086\7\25\2\2\u0086\u0087\b"+
-		"\f\1\2\u0087\u0088\7\24\2\2\u0088\u0089\b\f\1\2\u0089\u008a\5\32\16\2"+
-		"\u008a\u008b\b\f\1\2\u008b\u008c\7\r\2\2\u008c\u008d\b\f\1\2\u008d\u008e"+
-		"\7\22\2\2\u008e\u0090\b\f\1\2\u008f\u0091\5\f\7\2\u0090\u008f\3\2\2\2"+
-		"\u0091\u0092\3\2\2\2\u0092\u0090\3\2\2\2\u0092\u0093\3\2\2\2\u0093\u0094"+
-		"\3\2\2\2\u0094\u0095\7\23\2\2\u0095\u0096\b\f\1\2\u0096\27\3\2\2\2\u0097"+
-		"\u009d\5\34\17\2\u0098\u0099\7\17\2\2\u0099\u009a\b\r\1\2\u009a\u009c"+
-		"\5\34\17\2\u009b\u0098\3\2\2\2\u009c\u009f\3\2\2\2\u009d\u009b\3\2\2\2"+
-		"\u009d\u009e\3\2\2\2\u009e\31\3\2\2\2\u009f\u009d\3\2\2\2\u00a0\u00a1"+
-		"\7\25\2\2\u00a1\u00a5\b\16\1\2\u00a2\u00a3\7\26\2\2\u00a3\u00a5\b\16\1"+
-		"\2\u00a4\u00a0\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a5\33\3\2\2\2\u00a6\u00aa"+
-		"\5\32\16\2\u00a7\u00a8\7\27\2\2\u00a8\u00aa\b\17\1\2\u00a9\u00a6\3\2\2"+
-		"\2\u00a9\u00a7\3\2\2\2\u00aa\35\3\2\2\2\16\'\61:@Gq{\u0080\u0092\u009d"+
-		"\u00a4\u00a9";
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\3\2\3\2\3\2\3"+
+		"\2\3\2\3\3\6\3(\n\3\r\3\16\3)\3\4\3\4\3\4\3\4\3\4\3\4\7\4\62\n\4\f\4\16"+
+		"\4\65\13\4\3\4\3\4\3\5\3\5\6\5;\n\5\r\5\16\5<\3\6\3\6\3\6\3\6\5\6C\n\6"+
+		"\3\7\3\7\3\7\3\7\3\7\3\7\5\7K\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\t"+
+		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13"+
+		"\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\6\13s\n\13"+
+		"\r\13\16\13t\3\13\3\13\3\13\3\13\3\13\3\13\6\13}\n\13\r\13\16\13~\3\13"+
+		"\3\13\3\13\5\13\u0084\n\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f"+
+		"\3\f\3\f\3\f\6\f\u0094\n\f\r\f\16\f\u0095\3\f\3\f\3\f\3\r\3\r\3\r\3\r"+
+		"\6\r\u009f\n\r\r\r\16\r\u00a0\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r"+
+		"\3\r\3\r\3\16\3\16\3\16\3\16\7\16\u00b3\n\16\f\16\16\16\u00b6\13\16\3"+
+		"\17\3\17\3\17\3\17\5\17\u00bc\n\17\3\20\3\20\3\20\5\20\u00c1\n\20\3\20"+
+		"\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\2\2\u00c4\2 \3\2\2\2"+
+		"\4\'\3\2\2\2\6+\3\2\2\2\b8\3\2\2\2\nB\3\2\2\2\fJ\3\2\2\2\16L\3\2\2\2\20"+
+		"T\3\2\2\2\22\\\3\2\2\2\24d\3\2\2\2\26\u0085\3\2\2\2\30\u009a\3\2\2\2\32"+
+		"\u00ae\3\2\2\2\34\u00bb\3\2\2\2\36\u00c0\3\2\2\2 !\7\3\2\2!\"\5\4\3\2"+
+		"\"#\5\b\5\2#$\7\4\2\2$%\b\2\1\2%\3\3\2\2\2&(\5\6\4\2\'&\3\2\2\2()\3\2"+
+		"\2\2)\'\3\2\2\2)*\3\2\2\2*\5\3\2\2\2+,\5\n\6\2,-\7\27\2\2-\63\b\4\1\2"+
+		"./\7\23\2\2/\60\7\27\2\2\60\62\b\4\1\2\61.\3\2\2\2\62\65\3\2\2\2\63\61"+
+		"\3\2\2\2\63\64\3\2\2\2\64\66\3\2\2\2\65\63\3\2\2\2\66\67\7\20\2\2\67\7"+
+		"\3\2\2\28:\b\5\1\29;\5\f\7\2:9\3\2\2\2;<\3\2\2\2<:\3\2\2\2<=\3\2\2\2="+
+		"\t\3\2\2\2>?\7\5\2\2?C\b\6\1\2@A\7\6\2\2AC\b\6\1\2B>\3\2\2\2B@\3\2\2\2"+
+		"C\13\3\2\2\2DK\5\16\b\2EK\5\20\t\2FK\5\22\n\2GK\5\24\13\2HK\5\26\f\2I"+
+		"K\5\30\r\2JD\3\2\2\2JE\3\2\2\2JF\3\2\2\2JG\3\2\2\2JH\3\2\2\2JI\3\2\2\2"+
+		"K\r\3\2\2\2LM\7\7\2\2MN\7\16\2\2NO\7\27\2\2OP\b\b\1\2PQ\7\17\2\2QR\7\20"+
+		"\2\2RS\b\b\1\2S\17\3\2\2\2TU\7\b\2\2UV\7\16\2\2VW\7\27\2\2WX\b\t\1\2X"+
+		"Y\7\17\2\2YZ\7\20\2\2Z[\b\t\1\2[\21\3\2\2\2\\]\7\27\2\2]^\b\n\1\2^_\7"+
+		"\22\2\2_`\b\n\1\2`a\5\32\16\2ab\7\20\2\2bc\b\n\1\2c\23\3\2\2\2de\7\t\2"+
+		"\2ef\7\16\2\2fg\b\13\1\2gh\7\27\2\2hi\b\13\1\2ij\7\26\2\2jk\b\13\1\2k"+
+		"l\5\34\17\2lm\b\13\1\2mn\7\17\2\2no\b\13\1\2op\7\24\2\2pr\b\13\1\2qs\5"+
+		"\f\7\2rq\3\2\2\2st\3\2\2\2tr\3\2\2\2tu\3\2\2\2uv\3\2\2\2vw\7\25\2\2w\u0083"+
+		"\b\13\1\2xy\7\n\2\2yz\7\24\2\2z|\b\13\1\2{}\5\f\7\2|{\3\2\2\2}~\3\2\2"+
+		"\2~|\3\2\2\2~\177\3\2\2\2\177\u0080\3\2\2\2\u0080\u0081\7\25\2\2\u0081"+
+		"\u0082\b\13\1\2\u0082\u0084\3\2\2\2\u0083x\3\2\2\2\u0083\u0084\3\2\2\2"+
+		"\u0084\25\3\2\2\2\u0085\u0086\7\13\2\2\u0086\u0087\7\16\2\2\u0087\u0088"+
+		"\b\f\1\2\u0088\u0089\7\27\2\2\u0089\u008a\b\f\1\2\u008a\u008b\7\26\2\2"+
+		"\u008b\u008c\b\f\1\2\u008c\u008d\5\34\17\2\u008d\u008e\b\f\1\2\u008e\u008f"+
+		"\7\17\2\2\u008f\u0090\b\f\1\2\u0090\u0091\7\24\2\2\u0091\u0093\b\f\1\2"+
+		"\u0092\u0094\5\f\7\2\u0093\u0092\3\2\2\2\u0094\u0095\3\2\2\2\u0095\u0093"+
+		"\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097\3\2\2\2\u0097\u0098\7\25\2\2"+
+		"\u0098\u0099\b\f\1\2\u0099\27\3\2\2\2\u009a\u009b\7\f\2\2\u009b\u009c"+
+		"\7\24\2\2\u009c\u009e\b\r\1\2\u009d\u009f\5\f\7\2\u009e\u009d\3\2\2\2"+
+		"\u009f\u00a0\3\2\2\2\u00a0\u009e\3\2\2\2\u00a0\u00a1\3\2\2\2\u00a1\u00a2"+
+		"\3\2\2\2\u00a2\u00a3\7\25\2\2\u00a3\u00a4\7\r\2\2\u00a4\u00a5\7\16\2\2"+
+		"\u00a5\u00a6\7\27\2\2\u00a6\u00a7\b\r\1\2\u00a7\u00a8\7\26\2\2\u00a8\u00a9"+
+		"\b\r\1\2\u00a9\u00aa\5\34\17\2\u00aa\u00ab\b\r\1\2\u00ab\u00ac\7\17\2"+
+		"\2\u00ac\u00ad\b\r\1\2\u00ad\31\3\2\2\2\u00ae\u00b4\5\36\20\2\u00af\u00b0"+
+		"\7\21\2\2\u00b0\u00b1\b\16\1\2\u00b1\u00b3\5\36\20\2\u00b2\u00af\3\2\2"+
+		"\2\u00b3\u00b6\3\2\2\2\u00b4\u00b2\3\2\2\2\u00b4\u00b5\3\2\2\2\u00b5\33"+
+		"\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b7\u00b8\7\27\2\2\u00b8\u00bc\b\17\1\2"+
+		"\u00b9\u00ba\7\30\2\2\u00ba\u00bc\b\17\1\2\u00bb\u00b7\3\2\2\2\u00bb\u00b9"+
+		"\3\2\2\2\u00bc\35\3\2\2\2\u00bd\u00c1\5\34\17\2\u00be\u00bf\7\31\2\2\u00bf"+
+		"\u00c1\b\20\1\2\u00c0\u00bd\3\2\2\2\u00c0\u00be\3\2\2\2\u00c1\37\3\2\2"+
+		"\2\17)\63<BJt~\u0083\u0095\u00a0\u00b4\u00bb\u00c0";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

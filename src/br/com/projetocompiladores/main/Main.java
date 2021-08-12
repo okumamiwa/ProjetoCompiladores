@@ -20,7 +20,12 @@ public class Main {
 			ProjLangLexer lexer;
 			ProjLangParser parser;
 			
-			lexer = new ProjLangLexer(CharStreams.fromFileName("input.txt"));
+			String file = "input.txt";
+			if (args.length > 0) {
+				file = args[0];
+			}
+			
+			lexer = new ProjLangLexer(CharStreams.fromFileName(file));
 			
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			

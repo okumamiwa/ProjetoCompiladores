@@ -180,6 +180,7 @@ cmdatrib	: 	ID { verificaID(_input.LT(-1).getText());
 
 cmdselecao	:  'se' AP 	  { exprTypeList = new ArrayList<String>(); }
 					ID 	  { _exprDecision = _input.LT(-1).getText(); 
+							verificaID(_exprDecision);
 							_left	 = getTypeByID(_exprDecision);
 					}
 					OPREL { _exprDecision += _input.LT(-1).getText(); }
@@ -213,6 +214,7 @@ cmdselecao	:  'se' AP 	  { exprTypeList = new ArrayList<String>(); }
 			
 cmdrepeticao: 'enquanto'	AP		{ exprTypeList = new ArrayList<String>(); }
 							ID 		{ _exprDecision = _input.LT(-1).getText(); 
+									  verificaID(_exprDecision);
 									  _left	 = getTypeByID(_exprDecision); 
 							}
 							OPREL 	{ _exprDecision += _input.LT(-1).getText(); }
@@ -241,6 +243,7 @@ cmdfazerate	: 'fazer'	ACH {	curThread = new ArrayList<AbstractCommand>();
 						'ate'
 						AP	
 						ID	{	_exprDecision = _input.LT(-1).getText(); 
+								verificaID(_exprDecision);
 								_left	 = getTypeByID(_exprDecision); 
 						}
 						OPREL 	{ _exprDecision += _input.LT(-1).getText(); }

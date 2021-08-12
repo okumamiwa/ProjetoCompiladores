@@ -810,6 +810,7 @@ public class ProjLangParser extends Parser {
 			setState(101);
 			match(ID);
 			 _exprDecision = _input.LT(-1).getText(); 
+										verificaID(_exprDecision);
 										_left	 = getTypeByID(_exprDecision);
 								
 			setState(103);
@@ -947,6 +948,7 @@ public class ProjLangParser extends Parser {
 			setState(134);
 			match(ID);
 			 _exprDecision = _input.LT(-1).getText(); 
+												  verificaID(_exprDecision);
 												  _left	 = getTypeByID(_exprDecision); 
 										
 			setState(136);
@@ -1069,6 +1071,7 @@ public class ProjLangParser extends Parser {
 			setState(163);
 			match(ID);
 				_exprDecision = _input.LT(-1).getText(); 
+											verificaID(_exprDecision);
 											_left	 = getTypeByID(_exprDecision); 
 									
 			setState(165);

@@ -1,13 +1,13 @@
 Itens Obrigatórios
-( ) 2 tipos de variáveis (String,...)
-( ) possuir if-else
-( ) 1 estrutura de repetição
-( ) verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos
-( ) operações de entrada e saída
-( ) aceitar números decimais
-( ) verificar se a variável foi ou não declarada
+(x) 2 tipos de variáveis (String,Double)
+(x) possuir if-else
+(x) 1 estrutura de repetição
+(x) verificar atribuição de variáveis (erro semântico) - compatibilidade de tipos
+(x) operações de entrada e saída (leia e escreva)
+(x) aceitar números decimais
+(x) verificar se a variável foi ou não declarada
 ( ) verificar se a variável declarada foi ou não utilizada
-( ) linguagem de destino: Java
+(x) linguagem de destino: Java
 
 Itens opcionais:
 ( ) mais tipos de dados

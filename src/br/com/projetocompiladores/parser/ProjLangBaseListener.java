@@ -175,6 +175,18 @@ public class ProjLangBaseListener implements ProjLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTermcomp(ProjLangParser.TermcompContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTermcomp(ProjLangParser.TermcompContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTermo(ProjLangParser.TermoContext ctx) { }
 	/**
 	 * {@inheritDoc}

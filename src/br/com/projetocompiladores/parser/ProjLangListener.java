@@ -143,6 +143,16 @@ public interface ProjLangListener extends ParseTreeListener {
 	 */
 	void exitExpr(ProjLangParser.ExprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ProjLangParser#termcomp}.
+	 * @param ctx the parse tree
+	 */
+	void enterTermcomp(ProjLangParser.TermcompContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjLangParser#termcomp}.
+	 * @param ctx the parse tree
+	 */
+	void exitTermcomp(ProjLangParser.TermcompContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ProjLangParser#termo}.
 	 * @param ctx the parse tree
 	 */

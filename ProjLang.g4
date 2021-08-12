@@ -30,9 +30,12 @@ grammar ProjLang;
 	private String _exprID;
 	private String _exprContent;
 	private String _exprDecision;
+	private String _left;
+	private String _right;
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> listaFalse;
 	private ArrayList<AbstractCommand> listaCmd;
+	private ArrayList<String> exprTypeList = new ArrayList<String>();
 	
 	public void verificaID(String id) {
 		if (!symbolTable.exists(id)){
@@ -48,6 +51,28 @@ grammar ProjLang;
 	
 	public void generateCode(){
 		program.generateTarget();
+	}
+	
+	public String getTypeByID(String id) {
+		return symbolTable.getTypeByID(id);
+	}
+	
+	public void checkType(String left, String id, String expression){
+		for(String t : exprTypeList)  {
+			if(left != t) {
+				throw new ProjSemanticException("Incompatible types " + left + " and " + t + " in " + id + " = " + expression);
+			}
+		}
+	}
+	
+	public String verifyTypesAndGetTypeIfValid(ArrayList<String> listTypes, String expressao) {
+		String primeiroTipo = listTypes.get(0);
+		for (String tipo: listTypes) {
+			if (tipo != primeiroTipo) {
+				throw new ProjSemanticException("Incompatible types in expression: " + expressao);
+			}
+		}
+		return primeiroTipo;
 	}
 }
 
@@ -131,20 +156,31 @@ cmdescrita	: 'escreva' AP
 
 cmdatrib	: 	ID { verificaID(_input.LT(-1).getText());
                      _exprID = _input.LT(-1).getText();
+                     _left	 = getTypeByID(_exprID);
+                     exprTypeList = new ArrayList<String>();
      	  		} 
      	  		ATTR { _exprContent = ""; } 
      	  		expr 
      	  		SC {
                	 	CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
+               	 	checkType(_left, _exprID, _exprContent);
                	 	stack.peek().add(cmd);
                	}
 			;
 
-cmdselecao	:  'se' AP 
-					ID 	  { _exprDecision = _input.LT(-1).getText(); }
+cmdselecao	:  'se' AP 	  { exprTypeList = new ArrayList<String>(); }
+					ID 	  { _exprDecision = _input.LT(-1).getText(); 
+							_left	 = getTypeByID(_exprDecision);
+					}
 					OPREL { _exprDecision += _input.LT(-1).getText(); }
-					(ID | NUMBER) {_exprDecision += _input.LT(-1).getText(); }
-					FP 
+					termcomp { 	String id = _input.LT(-1).getText();
+								_exprDecision += id;
+								_right = verifyTypesAndGetTypeIfValid(exprTypeList, id);
+					}
+					FP 	{ 	if(_left != _right) {
+								throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
+							}
+					}
 					ACH { 	curThread = new ArrayList<AbstractCommand>(); 
                       		stack.push(curThread);
                     }
@@ -165,11 +201,19 @@ cmdselecao	:  'se' AP
 				)?
 			;
 			
-cmdrepeticao: 'enquanto'	AP
-							ID 		{ _exprDecision = _input.LT(-1).getText(); }
+cmdrepeticao: 'enquanto'	AP		{ exprTypeList = new ArrayList<String>(); }
+							ID 		{ _exprDecision = _input.LT(-1).getText(); 
+									  _left	 = getTypeByID(_exprDecision); 
+							}
 							OPREL 	{ _exprDecision += _input.LT(-1).getText(); }
-							(ID | NUMBER)	{ _exprDecision += _input.LT(-1).getText(); }
-							FP	
+							termcomp{ 	String id = _input.LT(-1).getText();
+										_exprDecision += id;
+										_right = verifyTypesAndGetTypeIfValid(exprTypeList, id);
+							}	
+							FP	{ 	if(_left != _right) {
+										throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
+									}
+							}
 							ACH	{	curThread = new ArrayList<AbstractCommand>();
 									stack.push(curThread);
 							}
@@ -187,14 +231,21 @@ expr		: termo (
 	            )*
 			;
 			
-termo		: ID 	{ verificaID(_input.LT(-1).getText());
-	               	  _exprContent += _input.LT(-1).getText();
+termcomp	: ID 	{ String id = _input.LT(-1).getText();
+					  verificaID(id);
+	               	  _exprContent += id;
+	               	  exprTypeList.add(getTypeByID(id));
               } 
               | 
               NUMBER{ _exprContent += _input.LT(-1).getText();
+              		  exprTypeList.add("NUMBER");
               }
+              ;
+			
+termo		: termcomp
               |
               TEXT	{ _exprContent += _input.LT(-1).getText();
+              		  exprTypeList.add("TEXT");
               }
 			;
 		

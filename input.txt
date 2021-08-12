@@ -1,13 +1,13 @@
 programa
-	numero a, b, c;
+	numero a, b, c, d;
 	texto t1;
 	
 	leia(a);
 	leia(b);
 	
-	a = 1 + 2 * 3 / b;
+	a = 1+2*3/b;
 	
-	se (a > b) {
+	se (a < b ) {
 		escreva (a);
 	}
 	senao {
@@ -15,13 +15,15 @@ programa
 	}	
 	
 	c = 0;
+	
+	t1 = "testing";
 
-  	enquanto ( c < 10 ) {
+  	enquanto ( c < 5 ) {
        	escreva (c);
        	c = c + 1;
   	}
   	
-  	t1 = "testing";
+  	
   	escreva(t1);
 	
 fimprog;

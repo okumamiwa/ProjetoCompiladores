@@ -24,6 +24,13 @@ public class ProjSymbolTable {
 		return map.get(symbolName);
 	}
 	
+	public String getTypeByID(String id) {
+		ProjVariable variable = (ProjVariable) this.get(id);
+		if (variable.getType() == ProjVariable.TEXT) {
+			return "TEXT";
+		} else return "NUMBER";
+	}
+	
 	public ArrayList<ProjSymbol> getAll(){
 		ArrayList<ProjSymbol> lista = new ArrayList<ProjSymbol>();
 		for (ProjSymbol symbol : map.values()) {

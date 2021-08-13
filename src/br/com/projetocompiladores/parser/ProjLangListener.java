@@ -13,6 +13,7 @@ package br.com.projetocompiladores.parser;
 	import br.com.projetocompiladores.ast.CommandDecisao;
 	import br.com.projetocompiladores.ast.CommandRepeticao;
 	import br.com.projetocompiladores.ast.CommandFazerAte;
+	import br.com.projetocompiladores.ast.CommandDecisaoTernario;
 	import java.util.ArrayList;
 	import java.util.Stack;
 
@@ -123,6 +124,16 @@ public interface ProjLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCmdselecao(ProjLangParser.CmdselecaoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ProjLangParser#cmdselecaoter}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdselecaoter(ProjLangParser.CmdselecaoterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ProjLangParser#cmdselecaoter}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdselecaoter(ProjLangParser.CmdselecaoterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ProjLangParser#cmdrepeticao}.
 	 * @param ctx the parse tree

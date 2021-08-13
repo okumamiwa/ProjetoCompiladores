@@ -28,6 +28,7 @@ programa
   		c = c - 1;
   	} ate (c > 0)
   	
+  	c == a ? escreva (a); : escreva (t1);
   	
   	escreva(t1);
 	

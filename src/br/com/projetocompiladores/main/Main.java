@@ -1,9 +1,6 @@
 package br.com.projetocompiladores.main;
 
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import java.util.ArrayList;
-
 import org.antlr.v4.runtime.CharStreams;
 
 import br.com.projetocompiladores.exceptions.ProjSemanticException;
@@ -17,6 +14,8 @@ import br.com.projetocompiladores.parser.ProjLangParser;
 public class Main {
 	public static void main(String[] args) {
 		try {
+			long start = System.currentTimeMillis();
+			
 			ProjLangLexer lexer;
 			ProjLangParser parser;
 			
@@ -38,8 +37,11 @@ public class Main {
 			parser.exibeComandos();
 			System.out.println("-".repeat(100) + "\n");
 			
-			System.out.println("#".repeat(38) + " COMPILATION SUCESSFULL " + "#".repeat(38));
 			parser.generateCode();
+			System.out.println("COMPILATION SUCESSFULL");
+
+			System.out.printf("Total time: %d ms", System.currentTimeMillis() - start);
+			
 		} 
 		catch (ProjSemanticException ex) {
 			System.err.println("SEMANTIC ERROR - " + ex.getMessage());

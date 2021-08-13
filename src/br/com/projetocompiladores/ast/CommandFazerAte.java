@@ -1,10 +1,12 @@
 package br.com.projetocompiladores.ast;
 
+import br.com.projetocompiladores.frmt.Indentacao;
 import java.util.ArrayList;
 
 public class CommandFazerAte extends AbstractCommand {
 	private String condition;
 	private ArrayList<AbstractCommand> listaCmd;
+        private Indentacao indentador=new Indentacao();
 
 	public CommandFazerAte(String condition, ArrayList<AbstractCommand> l) {
 		this.condition = condition;
@@ -14,11 +16,13 @@ public class CommandFazerAte extends AbstractCommand {
 	@Override
 	public String generateJavaCode() {
 		StringBuilder str = new StringBuilder();
-		str.append("do {\n");
+		str.append(indentador+"do {\n");
+                indentador.Indenta();
 		for (AbstractCommand cmd: listaCmd) {
 			str.append(cmd.generateJavaCode());
 		}
-		str.append("} \n while ("+condition+");");
+                indentador.DeIndenta();
+		str.append(indentador+"} while ("+condition+");\n");
 		return str.toString();
 	}
 	

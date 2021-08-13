@@ -6,26 +6,31 @@ import java.util.ArrayList;
 
 import br.com.projetocompiladores.datastructures.ProjSymbol;
 import br.com.projetocompiladores.datastructures.ProjSymbolTable;
+import br.com.projetocompiladores.frmt.Indentacao;
 
 public class ProjProgram {
 	private ProjSymbolTable varTable;
 	private ArrayList<AbstractCommand> comandos;
 	private String programName;
+        private Indentacao indentador=new Indentacao();
 	
 	public void generateTarget() {
 		StringBuilder str = new StringBuilder();
 		str.append("import java.util.Scanner;\n");
 		str.append("public class MainClass{ \n");
-		str.append("  public static void main(String args[]){\n ");
-		str.append("      Scanner _key = new Scanner(System.in);\n");
+		str.append(indentador+"public static void main(String args[]){\n ");
+                indentador.Indenta();
+		str.append(indentador+"Scanner _key = new Scanner(System.in);\n");
 		for (ProjSymbol symbol: varTable.getAll()) {
-			str.append(symbol.generateJavaCode()+"\n");
+			str.append(indentador+symbol.generateJavaCode()+"\n");
 		}
 		for (AbstractCommand command: comandos) {
-			str.append(command.generateJavaCode()+"\n");
+			str.append(command.generateJavaCode());
 		}
-		str.append("}");
-		str.append("}");
+                indentador.DeIndenta();
+		str.append(indentador+"}\n");
+                indentador.DeIndenta();
+		str.append(indentador+"}\n");
 		
 		try {
 			FileWriter fr = new FileWriter(new File("MainClass.java"));

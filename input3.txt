@@ -1,0 +1,25 @@
+programa
+	numero a, b, c, d;
+	texto t1;
+	
+	leia(a);
+	leia(b);
+	
+	a = 1+2*3/b;
+	
+	se (a < b ) {
+		escreva (a);
+	}
+	senao {
+		escreva(b);
+	}	
+	
+	t1 = "testing";
+  	
+  	repetir (numero a=0; numero<3; numero++) {
+  		escreva(a);
+  	}
+  	
+  	escreva(t1);
+	
+fimprog;

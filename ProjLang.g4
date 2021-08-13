@@ -35,6 +35,8 @@ grammar ProjLang;
 	private String _exprDecision;
 	private String _left;
 	private String _right;
+	private String _actionID;
+	private String _declID;
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> listaFalse;
 	private ArrayList<AbstractCommand> listaCmd;
@@ -279,30 +281,49 @@ cmdrepeticao: 'enquanto'	AP		{ exprTypeList = new ArrayList<String>(); }
 							}
 			;
 			
-cmdrepeticaoPor: 'repetir'	AP		{ exprTypeList = new ArrayList<String>(); }
-							declaravar
-							SC
-							ID 		{ _exprDecision = _input.LT(-1).getText(); 
-									  verificaID(_exprDecision);
-									  _left	 = getTypeByID(_exprDecision); 
-							}
-							OPREL 	{ _exprDecision += _input.LT(-1).getText(); }
+cmdrepeticaoPor: 'repetir'	AP	{ 	exprTypeList = new ArrayList<String>(); }
+							ID 	{	 _exprID = _input.LT(-1).getText();
+			                     	verificaID(_exprID);
+			                     	_left	 = getTypeByID(_exprID);
+			                     	exprTypeList = new ArrayList<String>();
+			     	  		} 
+			     	  		ATTR { _exprContent = "="; }
+			     	  		expr 
+			     	  		SC {
+			               	 	checkType(_left, _exprID, _exprContent);
+			               	 	_declID = _exprID + _exprContent;
+			               	}
+							ID 		{ 	_exprDecision = _input.LT(-1).getText(); 
+									  	verificaID(_exprDecision);
+									  	_left	 = getTypeByID(_exprDecision); 
+							}	
+							OPREL 	{ 	_exprDecision += _input.LT(-1).getText(); }
 							termcomp{ 	String id = _input.LT(-1).getText();
 										_exprDecision += id;
 										_right = verifyAndGetType(id);
 							}	
-							SC
-							(cmd)+
-							FP	{ 	if(_left != _right) {
+							SC { 	if(_left != _right) {
 										throw new ProjSemanticException("Incompatible types " + _left + " and " + _right + " in " + _exprDecision);
 									}
 							}
+							ID 	{	_exprID = _input.LT(-1).getText();
+			                     	verificaID(_exprID);
+			                     	_left	 = getTypeByID(_exprID);
+			                     	exprTypeList = new ArrayList<String>();
+			     	  		} 
+			     	  		ATTR { _exprContent = "="; }
+			     	  		expr 
+			     	  		{
+			               	 	checkType(_left, _exprID, _exprContent);
+			               	 	_actionID = _exprID + _exprContent;
+			               	}
+							FP	
 							ACH	{	curThread = new ArrayList<AbstractCommand>();
 									stack.push(curThread);
 							}
 							(cmd)+
 							FCH {	listaCmd = stack.pop(); 
-									CommandRepeticao cmd = new CommandRepeticao( _exprDecision, listaCmd);
+									CommandRepeticaoFor cmd = new CommandRepeticaoFor( _declID, _exprDecision, _actionID, listaCmd);
 									stack.peek().add(cmd);
 							}
 			;			

@@ -19,7 +19,7 @@ public class Main {
 			ProjLangLexer lexer;
 			ProjLangParser parser;
 			
-			String file = "input.txt";
+			String file = "input3.txt";
 			if (args.length > 0) {
 				file = args[0];
 			}

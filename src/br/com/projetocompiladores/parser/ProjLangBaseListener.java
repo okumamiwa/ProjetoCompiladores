@@ -12,6 +12,7 @@ package br.com.projetocompiladores.parser;
 	import br.com.projetocompiladores.ast.CommandAtribuicao;
 	import br.com.projetocompiladores.ast.CommandDecisao;
 	import br.com.projetocompiladores.ast.CommandRepeticao;
+	import br.com.projetocompiladores.ast.CommandRepeticaoFor;
 	import br.com.projetocompiladores.ast.CommandFazerAte;
 	import br.com.projetocompiladores.ast.CommandDecisaoTernario;
 	import java.util.ArrayList;
@@ -172,6 +173,18 @@ public class ProjLangBaseListener implements ProjLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCmdrepeticao(ProjLangParser.CmdrepeticaoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdrepeticaoPor(ProjLangParser.CmdrepeticaoPorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdrepeticaoPor(ProjLangParser.CmdrepeticaoPorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

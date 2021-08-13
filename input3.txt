@@ -1,5 +1,5 @@
 programa
-	numero a, b, c, d;
+	numero a, b, c, d, i;
 	texto t1;
 	
 	leia(a);
@@ -16,7 +16,7 @@ programa
 	
 	t1 = "testing";
   	
-  	repetir (numero a=0; numero<3; numero++) {
+  	repetir (i=0; i<3; i=i+1) {
   		escreva(a);
   	}
   	

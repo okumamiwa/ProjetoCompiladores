@@ -11,7 +11,8 @@ Itens Obrigatórios
 
 Itens opcionais:
 (x) compatibilidade de tipos em expressões comparativas
-(x) repetição do-while 
+(x) repetição do-while
+(x) indicação do tempo de compilação 
 ( ) mais tipos de dados
 ( ) mais estruturas de repetições
 ( ) trabalhar com vetores/matrizes

@@ -14,6 +14,7 @@ grammar ProjLang;
 	import br.com.projetocompiladores.ast.CommandRepeticao;
 	import br.com.projetocompiladores.ast.CommandRepeticaoFor;
 	import br.com.projetocompiladores.ast.CommandFazerAte;
+	import br.com.projetocompiladores.ast.CommandDecisaoTernario;
 	import java.util.ArrayList;
 	import java.util.Stack;
 }
@@ -151,6 +152,7 @@ cmd 	: cmdleitura
 		| cmdrepeticao
 		| cmdrepeticaoPor
 		| cmdfazerate
+		| cmdselecaoter
 		;
 		
 cmdleitura	: 'leia' 	AP 
@@ -224,6 +226,34 @@ cmdselecao	:  'se' AP 	  { exprTypeList = new ArrayList<String>(); }
                    	}
 				)?
 			;
+			
+cmdselecaoter	: 	ID	{ 	_exprDecision = _input.LT(-1).getText(); 
+							verificaID(_exprDecision);
+							_left	 = getTypeByID(_exprDecision);
+					}
+					OPREL 	{	 _exprDecision += _input.LT(-1).getText(); }
+					termcomp{ 	String id = _input.LT(-1).getText();
+								_exprDecision += id;
+								_right = verifyAndGetType(id);
+					}
+					'?'
+					{	curThread = new ArrayList<AbstractCommand>(); 
+                      	stack.push(curThread);
+                    }
+                    (cmd) 
+                    {	listaTrue = stack.pop();	
+                    }
+                    ':'
+                    {	curThread = new ArrayList<AbstractCommand>(); 
+                      	stack.push(curThread);
+                    }
+                    (cmd)
+                    {
+                    	listaFalse = stack.pop();
+                   		CommandDecisaoTernario cmd = new CommandDecisaoTernario(_exprDecision, listaTrue, listaFalse);
+                   		stack.peek().add(cmd);
+                    }
+				;
 			
 cmdrepeticao: 'enquanto'	AP		{ exprTypeList = new ArrayList<String>(); }
 							ID 		{ _exprDecision = _input.LT(-1).getText(); 

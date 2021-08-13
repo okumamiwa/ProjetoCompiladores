@@ -22,5 +22,7 @@ System.out.println(c);c = c+1;}
 do {
 System.out.println(c);c = c-1;} 
  while (c>0);
+if (c==a) {System.out.println(a);} else { System.out.println(t1);}
+
 System.out.println(t1);
 }}

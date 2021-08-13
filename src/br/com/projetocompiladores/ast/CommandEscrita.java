@@ -1,7 +1,10 @@
 package br.com.projetocompiladores.ast;
 
+import br.com.projetocompiladores.frmt.Indentacao;
+
 public class CommandEscrita extends AbstractCommand {
 	private String id;
+        private Indentacao indentador = new Indentacao();
 	
 	public CommandEscrita(String id) {
 		this.id = id;
@@ -9,7 +12,7 @@ public class CommandEscrita extends AbstractCommand {
 
 	@Override
 	public String generateJavaCode() {
-		return "System.out.println("+id+");";
+		return indentador+"System.out.println("+id+");\n";
 	}
 	
 	@Override

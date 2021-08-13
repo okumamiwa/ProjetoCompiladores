@@ -1,12 +1,14 @@
 package br.com.projetocompiladores.ast;
 
+import br.com.projetocompiladores.frmt.Indentacao;
 import java.util.ArrayList;
 
 public class CommandDecisaoTernario extends AbstractCommand {
 	private String condition;
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> listaFalse;
-	
+        private Indentacao indentador = new Indentacao();
+        
 	public CommandDecisaoTernario(String condition, ArrayList<AbstractCommand> lt, ArrayList<AbstractCommand> lf) {
 		this.condition = condition;
 		this.listaTrue = lt;
@@ -15,15 +17,19 @@ public class CommandDecisaoTernario extends AbstractCommand {
 	@Override
 	public String generateJavaCode() {
 		StringBuilder str = new StringBuilder();
-		str.append("if ("+condition+") {");
+		str.append(indentador+"if ("+condition+") {\n");
+                indentador.Indenta();
 		for (AbstractCommand cmd: listaTrue) {
 			str.append(cmd.generateJavaCode());
 		}
-		str.append("} else { ");
+                indentador.DeIndenta();
+		str.append(indentador+"}\n"+indentador+"else {\n");
+                indentador.Indenta();
 		for (AbstractCommand cmd: listaFalse) {
 			str.append(cmd.generateJavaCode());
 		}
-		str.append("}\n");
+                indentador.DeIndenta();
+		str.append(indentador+"}\n");
 		return str.toString();
 	}
 	@Override

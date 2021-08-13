@@ -1,5 +1,6 @@
 package br.com.projetocompiladores.ast;
 
+import br.com.projetocompiladores.frmt.Indentacao;
 import java.util.ArrayList;
 
 public class CommandRepeticaoFor extends AbstractCommand {
@@ -7,6 +8,7 @@ public class CommandRepeticaoFor extends AbstractCommand {
 	private String condition;
 	private String action;
 	private ArrayList<AbstractCommand> listaCmd;
+        private Indentacao indentador=new Indentacao();
 	
 	public CommandRepeticaoFor(String declaration, String condition, String action, ArrayList<AbstractCommand> l) {
 		this.declaration = declaration;
@@ -18,11 +20,12 @@ public class CommandRepeticaoFor extends AbstractCommand {
 	@Override
 	public String generateJavaCode() {
 		StringBuilder str = new StringBuilder();
-		str.append("for ("+declaration+";"+condition+";"+action+") {\n");
+		str.append(indentador+"for ("+declaration+";"+condition+";"+action+") {\n");
+                indentador.Indenta();
 		for (AbstractCommand cmd: listaCmd) {
-			str.append(cmd.generateJavaCode());
+			str.append(indentador+cmd.generateJavaCode());
 		}
-		str.append("}");
+		str.append(indentador+"}");
 		return str.toString();
 	}
 	

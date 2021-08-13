@@ -24,7 +24,7 @@ public class ProjProgram {
 		for (AbstractCommand command: comandos) {
 			str.append(command.generateJavaCode()+"\n");
 		}
-		str.append("  }");
+		str.append("}");
 		str.append("}");
 		
 		try {

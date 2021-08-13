@@ -7,6 +7,7 @@ double  b;
 double  c;
 double  d;
 String  t1;
+String  t2;
 a= _key.nextDouble();
 b= _key.nextDouble();
 a = 1+2*3/b;
@@ -22,4 +23,4 @@ do {
 System.out.println(c);c = c-1;} 
  while (c>0);
 System.out.println(t1);
-  }}
+}}

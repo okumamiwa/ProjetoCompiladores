@@ -32,18 +32,13 @@ public class Main {
 			parser = new ProjLangParser(tokens);
 			parser.prog();
 			
-			ArrayList<String> warnings = parser.warnings();
-			if(warnings.size() > 0) {
-				System.out.println("############# WARNINGS #############");
-				for(String w : warnings) {
-					System.out.println(w);
-				}
-			}
+			parser.exibeWarnings();
 			
-			System.out.println("********* COMPILATION SUCESSFULL *********");
-			System.out.println("---------------- COMMANDS ----------------");
+			System.out.println( "-".repeat(45) + " COMMANDS " + "-".repeat(45));
 			parser.exibeComandos();
+			System.out.println("-".repeat(100) + "\n");
 			
+			System.out.println("#".repeat(38) + " COMPILATION SUCESSFULL " + "#".repeat(38));
 			parser.generateCode();
 		} 
 		catch (ProjSemanticException ex) {

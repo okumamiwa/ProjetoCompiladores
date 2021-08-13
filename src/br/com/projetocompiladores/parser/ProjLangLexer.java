@@ -131,7 +131,7 @@ public class ProjLangLexer extends Lexer {
 		
 		public void exibeComandos(){
 			for (AbstractCommand c: program.getComandos()){
-				System.out.println(c);
+				System.out.println("-- " + c);
 			}
 		}
 		
@@ -167,6 +167,17 @@ public class ProjLangLexer extends Lexer {
 				l.add("Variável <" + s.getName() + "> declarada, mas nao usada");
 			}
 			return l;
+		}
+		
+		public void exibeWarnings(){
+			ArrayList<String> warnings = warnings();
+			if(warnings.size() > 0) {
+				System.out.println("*".repeat(45) + " WARNINGS " + "*".repeat(45));
+				for(String w : warnings) {
+					System.out.println("** " + w);
+				}
+				System.out.println("*".repeat(100) + "\n");
+			}
 		}
 
 

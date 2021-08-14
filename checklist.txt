@@ -15,6 +15,7 @@ Itens opcionais:
 (x) indicação do tempo de compilação 
 (x) repetição for
 (x) identação do código gerado
+(x) ignorar comentário
 ( ) mais tipos de dados
 ( ) mais estruturas de repetições
 ( ) trabalhar com vetores/matrizes

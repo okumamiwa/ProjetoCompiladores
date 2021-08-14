@@ -332,7 +332,7 @@ cmdfazerate	: 'fazer'	ACH {	curThread = new ArrayList<AbstractCommand>();
 								stack.push(curThread);
 						} (cmd)+
 						FCH 
-						'ate'
+						'enquanto'
 						AP	
 						ID	{	_exprDecision = _input.LT(-1).getText(); 
 								verificaID(_exprDecision);
@@ -416,11 +416,11 @@ TEXT : '"' ( '\\"' | . )*? '"' ;
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
 
 COMMENT	: '/*' .*? '*/' {
-		System.out.println("Esse é um bloco de comentário, o trecho nao sera compilado\n");
+		System.out.println("Bloco de comentário encontrado, o trecho nao sera compilado\n");
 		} -> skip;
 	 	
 LCOMMENT: '//' ~[\r\n]* {
-		System.out.println("Essa é uma linha de comentário, o trecho nao sera compilado\n");
+		System.out.println("Linha de comentário encontrada, ela nao sera compilado\n");
 		} -> skip;
 	 	
 	 	

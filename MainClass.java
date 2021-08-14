@@ -6,8 +6,8 @@ public class MainClass{
 		double  b;
 		double  c;
 		double  d;
-		double  i;
 		String  t1;
+		String  t2;
 		a= _key.nextDouble();
 		b= _key.nextDouble();
 		a = 1+2*3/b;
@@ -17,9 +17,21 @@ public class MainClass{
 		else {
 			System.out.println(b);
 		}
+		c = 0;
 		t1 = "testing";
-		for (i=0;i<3;i=i+1) {
+		while (c<5) {
+			System.out.println(c);
+			c = c+1;
+		}
+		do {
+			System.out.println(c);
+			c = c-1;
+		} while (c>0);
+		if (c==a) {
 			System.out.println(a);
+		}
+		else {
+			System.out.println(t1);
 		}
 		System.out.println(t1);
 	}

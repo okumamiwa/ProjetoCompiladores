@@ -21,5 +21,11 @@ programa
   	}
   	
   	escreva(t1);
+  	
+  	/* 	Comentario
+  		de bloco
+  	*/
+  	
+  	// Comentario de linha
 	
 fimprog;

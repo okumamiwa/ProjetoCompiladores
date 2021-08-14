@@ -26,7 +26,7 @@ programa
   	fazer {
   		escreva (c);
   		c = c - 1;
-  	} ate (c > 0)
+  	} enquanto (c > 0)
   	
   	c == a ? escreva (a); : escreva (t1);
   	

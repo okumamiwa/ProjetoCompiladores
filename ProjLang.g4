@@ -414,6 +414,14 @@ TEXT : '"' ( '\\"' | . )*? '"' ;
 
     
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
+
+COMMENT	: '/*' .*? '*/' {
+		System.out.println("Esse é um bloco de comentário, o trecho nao sera compilado\n");
+		} -> skip;
+	 	
+LCOMMENT: '//' ~[\r\n]* {
+		System.out.println("Essa é uma linha de comentário, o trecho nao sera compilado\n");
+		} -> skip;
 	 	
 	 	
 	 	
